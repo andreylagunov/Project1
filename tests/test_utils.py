@@ -24,7 +24,9 @@ import pandas
 
 
 def test_read_main_data_from_excel___empty_file():
-    assert read_main_data_from_excel("data/empty_test.xlsx") == None
+    with raises(ValueError) as exception_info:
+        read_main_data_from_excel("data/empty_test.xlsx")
+    assert str(exception_info.value) == "При попытке чтения excel-файла, он содержит некорректные данные"
 
 def test_read_main_data_from_excel___check_type():
     assert type(read_main_data_from_excel("data/operations.xlsx")) == pandas.DataFrame
