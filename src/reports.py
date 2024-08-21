@@ -7,14 +7,17 @@ from typing import Callable, Optional
 
 import pandas as pd
 
+from src.abs_paths import get_absolute_path_for_file
+
 # from src.utils import read_main_data_from_excel
 
-if __name__ == "__main__":
-    report_file___default_path = "../data/spendings_report.json"
-    log_file_path = "../logs/reports.log"
-else:
-    report_file___default_path = "data/spendings_report.json"
-    log_file_path = "logs/reports.log"
+
+log_file_path = get_absolute_path_for_file("reports.log")
+print("При выполнении reports.py, получен log_file_path: ", log_file_path)
+
+report_file___default_path = get_absolute_path_for_file("spendings_report.json")
+print("При выполнении reports.py, получен report_file___default_path: ", report_file___default_path)
+
 
 if os.path.exists(log_file_path):
     os.truncate(log_file_path, 0)
@@ -132,6 +135,12 @@ def decorator_for_json_write___in_file(file_path: str) -> Callable:
 
 # @decorator_for_json_write
 # @decorator_for_json_write___in_file("../data/report_file.json")
+
+
+report_file = get_absolute_path_for_file("report_file.json")
+
+
+@decorator_for_json_write___in_file(report_file)
 def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> pd.DataFrame:
     """
     Принимает:  Датафрейм транзакций, название категории, опционально - дату вида "dd.mm.yyyy".

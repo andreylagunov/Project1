@@ -4,10 +4,9 @@ import logging
 import os
 from typing import Any, Dict, List
 
-if __name__ == "__main__":
-    log_file_path = "../logs/services.log"
-else:
-    log_file_path = "logs/services.log"
+from src.abs_paths import get_absolute_path_for_file
+
+log_file_path = get_absolute_path_for_file("services.log")
 
 if os.path.exists(log_file_path):
     os.truncate(log_file_path, 0)
@@ -27,7 +26,7 @@ def investment_bank(month: str, transactions: List[Dict[str, Any]], limit: int) 
     :param limit:           предел округления для сумм операций (целое число)
     :return:                сумма, которую удалось бы отложить
     """
-    sum = 0
+    sum = 0.0
     if type(month) is not str or len(month) != len("YYYY.MM"):
         logger.error("Параметр month: ожидалась строка вида 'YYYY.MM'")
         raise ValueError("Параметр month: ожидалась строка вида 'YYYY.MM'")

@@ -9,10 +9,9 @@ import pandas as pd
 import requests
 from dotenv import load_dotenv
 
-if __name__ == "__main__" or __name__ == "utils":
-    log_file_path = "../logs/utils.log"
-else:
-    log_file_path = "logs/utils.log"
+from src.abs_paths import get_absolute_path_for_file
+
+log_file_path = get_absolute_path_for_file("utils.log")
 
 if os.path.exists(log_file_path):
     os.truncate(log_file_path, 0)
@@ -25,27 +24,24 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-def read_main_data_from_excel(file_path: str) -> pd.DataFrame | None:
+def read_main_data_from_excel(file_path: str) -> pd.DataFrame:
     """
     Принимает путь до excel файла.
     Возвращает объект DataFrame с содержимым файла.
     """
     # Если файл не существует:
     if not os.path.exists(file_path):
-        logger.warning(f"При попытке чтения excel-файла, он не обнаружен по пути '{file_path}'")
-        return None
+        logger.error(f"При попытке чтения excel-файла, он не обнаружен по пути '{file_path}'")
+        raise ValueError(f"При попытке чтения excel-файла, он не обнаружен по пути '{file_path}'")
 
     # Если файл не соответствующего типа:
     try:
         excel_df = pd.read_excel(file_path)
     except ValueError:
         logger.error("При попытке чтения excel-файла, он содержит некорректные данные")
-        return None
+        raise ValueError("При попытке чтения excel-файла, он содержит некорректные данные")
 
     logger.debug("Чтение базовых данных из excel-файла - OK")
-    if excel_df.shape == (0, 0):
-        return None
-    logger.debug("Файл не пуст. Содержит данные.")
     logger.debug("Нормальное завершение функции read_main_data_from_excel")
     return excel_df
 
