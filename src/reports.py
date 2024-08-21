@@ -13,10 +13,10 @@ from src.abs_paths import get_absolute_path_for_file
 
 
 log_file_path = get_absolute_path_for_file("reports.log")
-print("При выполнении reports.py, получен log_file_path: ", log_file_path)
+# print("При выполнении reports.py, получен log_file_path: ", log_file_path)
 
 report_file___default_path = get_absolute_path_for_file("spendings_report.json")
-print("При выполнении reports.py, получен report_file___default_path: ", report_file___default_path)
+# print("При выполнении reports.py, получен report_file___default_path: ", report_file___default_path)
 
 
 if os.path.exists(log_file_path):
