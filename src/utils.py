@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from src.abs_paths import get_absolute_path_for_file
 
 log_file_path = get_absolute_path_for_file("utils.log")
+user_settings_path = get_absolute_path_for_file("user_settings.json")
 
 if os.path.exists(log_file_path):
     os.truncate(log_file_path, 0)
@@ -221,38 +222,40 @@ def write_data_to_user_settings_json(data_dict: dict) -> None:
     Принимает:  Словарь с данными по акциям и валютам.
     Записывает данные в user_settings.json файл.
     """
+    # if __name__ == "__main__":
+    #     file_path = "../user_settings.json"
+    # else:
+    #     file_path = "./user_settings.json"
 
-    # Запись данных о валютах и акциях в json-файл:
-    # currencies_and_stocks_dict = {
-    #     "user_currencies": ["USD", "EUR"],
-    #     "user_stocks": ["AAPL", "AMZN"]
-    # }
-    if __name__ == "__main__":
-        file_path = "../user_settings.json"
-    else:
-        file_path = "./user_settings.json"
-    # Если файл не существует:
+    # # Если файл не существует:
     # if not os.path.exists(file_path):
     #     raise ValueError("Файл user_settings.json не найден.")
 
-    with open(file_path, "w", encoding="utf-8") as file:
+    with open(user_settings_path, "w", encoding="utf-8") as file:
         json.dump(data_dict, file)
+
+# Запись данных о валютах и акциях в json-файл:
+currencies_and_stocks_dict = {
+    "user_currencies": ["USD", "EUR"],
+    "user_stocks": ["AAPL", "AMZN"]
+}
+write_data_to_user_settings_json(currencies_and_stocks_dict)
 
 
 def get_currencies_from_user_file() -> list:
     """Возвращает список с валютами из user_settings.json файла."""
 
     # file_path = "../user_settings.json"
-    if __name__ == "__main__" or __name__ == "utils":
-        file_path = "../user_settings.json"
-    else:
-        file_path = "./user_settings.json"
+    # if __name__ == "__main__" or __name__ == "utils":
+    #     file_path = "../user_settings.json"
+    # else:
+    #     file_path = "./user_settings.json"
 
     # Если файл не существует:
     # if not os.path.exists(file_path):
     #     raise ValueError("Файл user_settings.json не найден.")
 
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(user_settings_path, "r", encoding="utf-8") as file:
         json_data_dict = json.load(file)
 
     if type(json_data_dict) is dict and "user_currencies" in json_data_dict:
@@ -310,15 +313,15 @@ def get_stocks_from_user_file() -> list:
     """Возвращает список акций из user_settings.json файла."""
 
     # file_path = "../user_settings.json"
-    if __name__ == "__main__" or __name__ == "utils":
-        file_path = "../user_settings.json"
-    else:
-        file_path = "./user_settings.json"
+    # if __name__ == "__main__" or __name__ == "utils":
+    #     file_path = "../user_settings.json"
+    # else:
+    #     file_path = "./user_settings.json"
     # Если файл не существует:
-    if not os.path.exists(file_path):
+    if not os.path.exists(user_settings_path):
         raise ValueError("Файл user_settings.json не найден.")
 
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(user_settings_path, "r", encoding="utf-8") as file:
         json_data_dict = json.load(file)
 
     if type(json_data_dict) is dict and "user_stocks" in json_data_dict:
